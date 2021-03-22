@@ -32,7 +32,7 @@ const SchoolAdmin = () => {
         reader.readAsArrayBuffer(file)
         reader.onloadend = ()=> {
             setbuffer(buffer=>buffer=Buffer(reader.result))
-        }   // note: outside this function, reader.result is null!!!
+        }  
       }
 
     //Store ISA document into IPFS and get a fileHash
@@ -41,7 +41,6 @@ const SchoolAdmin = () => {
             await ipfs.add(buffer,  (error, result) => {
             // fh =   result[0].hash
             fileHash = result[0].hash
-            console.log ('fHash at IPFS  ', fileHash,  buffer)
             if(error){
                 console.error(error)
             }
@@ -62,11 +61,9 @@ const SchoolAdmin = () => {
 
     // const loadBlockChain =  async (event) => {
     const loadBlockChain =  async () => {
-        // event.preventDefault()
+        // event.prevenDefault()
         let ethereum = window.ethereum;
-        // w3 = window.web3;
         web3 = window.web3;
-        console.log("w3--- ",  web3)
         if (typeof ethereum !== 'undefined') {
             await ethereum.enable();
             web3 = new Web3(ethereum)
@@ -78,7 +75,6 @@ const SchoolAdmin = () => {
               const abi = ISA.abi
               const address = networkData.address
             contract = await new web3.eth.Contract(abi,address)
-              console.log('contract===  ', contract)
             } else {
               window.alert('smart contract not deployed to the detected network')
             }
@@ -90,86 +86,52 @@ const SchoolAdmin = () => {
       }
 
     const StoreStudentInfo = async () => {
-        // event.preventdefault()
-
         await loadBlockChain()
-        console.log(web3, contract, account, fh)
-        // console.log(w3, cont, acct)
         await contract.methods.storeStudentInfo(account,fileHash).send({from:account})
-        // let msg = await contract.methods.storeStudentInfo(account).send({from:account})
-        // console.log('after SC  ', msg)
-        // contract.events.LogAdditionEvent({})
-        // .on('data', event=> console.log(event));
 
-        // let et = await new Promise(resolve=> setTimeout(()=>resolve, 2000));
-        // console.log(et)
     }
 
     const StorePaymentTerms = async (e) => {
         e.preventDefault()
         await loadBlockChain()
-        console.log(account, contract)
-        console.log(amountRemain,monthsRemain)
         await contract.methods.StorePaymentDetails(account,amountRemain,monthsRemain).send({from:account})
      }
 
     const RetrieveStudentInfo = async () => {
-        // event.preventdefault()
         await loadBlockChain()
-        // await contract.methods.getStudentInfo(account).call().then((result)=>
-        //      console.log('after SC result ', result))
-        console.log("account -- ", account)
         let data = await contract.methods.getStudentInfo(account).call()
         let key=1
         setAcct(acct=>acct=data[key])
         key = 2
         setFH(fh=>fh=data[key])
         setFileHash(fileHash=>fileHash=fh)
-        console.log("retrieve info data1", data[1])
-        console.log("retrieve info acct", acct)
-        console.log("retrieve info fh", fh)
-        console.log("retrieve info fileHash", fileHash)
-    }
+    }   
 
     const VerifySignature = async (event) => {
         event.preventDefault()
-        // await loadBlockChain()
         await RetrieveStudentInfo()
-        console.log('before verifying', account, contract,fileHash)
         let Certified = await contract.methods.verifyFileHash(account,fileHash).call()
-        console.log('certified ', Certified)
         setCert(cert=>cert="")   
         if (Certified>0){
             setCert(cert=>cert=1)    
-            console.log('inside certified')
-            // setCert(1)    
         } else {setCert(cert=>cert=0)    }
-        console.log('cert ', cert)
-        
     }
 
     const handleInputChange = (e) => {
         e.preventDefault()
         if (e.target.name === "amount"){
             setAmountR(e.target.value)
-            console.log('amountR `` ',amountRemain)    
         } else {
             setMonthsR(e.target.value)
-            console.log('amountR `` ',monthsRemain)
-    
         }
-
     }
 
     function handleLogout() {
         localStorage.removeItem(ACCESS_TOKEN_NAME)
-        // history.pushState({pathname: '/login'})
-        // props.history.push('/login')
     }
 
     return(
 
-    // <div className="grid-container">
     <wrapper>
         <article>
             Load ISA Document 
@@ -200,7 +162,6 @@ const SchoolAdmin = () => {
         <footer>        
             <button onClick={VerifySignature}>Verify Signature</button>
             <p>Verification: {cert}</p>   
-            {/* <p>Verification: {{cert}?"OK":"FAIL!"}</p> */}
         </footer>
             <div className="ml-auto">
                     <button className="btn btn-danger" onClick={() => handleLogout()}>Logout</button>

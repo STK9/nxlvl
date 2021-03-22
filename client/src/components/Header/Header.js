@@ -29,7 +29,6 @@ const Header = (props) => {
     }
     return(
         <div>
-        {/* <nav className="navbar navbar-dark bg-secondary"> */}
         <nav className="navBar">
             <div className="row col-12 d-flex justify-content-center text-white">
             <ul>
@@ -38,19 +37,12 @@ const Header = (props) => {
                 <li><Link to='StudentAdmin'>Student Admin</Link></li>
                 <li><Link to='login'>Login</Link></li>
             </ul>
-
             </div>
-
         </nav>
              <div>
-                  {/* <span className="h3">{props.title || title}</span> */}
                   {renderLogout()}             
              </div>
-
         </div>
-
-
- 
     )
 }
 export default withRouter(Header);

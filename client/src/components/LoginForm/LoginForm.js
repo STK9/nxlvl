@@ -16,8 +16,6 @@ function LoginForm(props) {
             ...prevState,
             [id] : value
         }))
-
-        // console.log('id, value' , id, value)
     }
 
     const handleSubmitClick = (e) => {
@@ -27,31 +25,15 @@ function LoginForm(props) {
             "password":state.password,
         }
 
-        console.log('payload', payload)
-
         let API_BASE_URL = "https://nv1.herokuapp.com"
-        // let API_BASE_URL = "http://localhost:5000"
-
-        // console.log('API BASE', API_BASE_URL )
-        // console.log('node .env', process.env )
-
-        // axios.post(API_BASE_URL+'/user/login', payload)
-        //  axios.post('http://localhost:5000/user/login', payload)
          axios.post('https://nv1.herokuapp.com/user/login', payload)
             .then(function (response) {
-                console.log('response', response)
                 if(response.status === 200){
                     setState(prevState => ({
                         ...prevState,
                         'successMessage' : 'Login successful. Redirecting to home page..'
                     }))
                     localStorage.setItem(ACCESS_TOKEN_NAME,response.data.token);
-                    console.log('tokens',ACCESS_TOKEN_NAME,response.data.token)
-                    
-                    for(var i in localStorage) {
-                        console.log(i + ' = ' + localStorage[i]);
-                    }
-                                                    
                     redirectToHome();
                     props.showError(null)
                 }

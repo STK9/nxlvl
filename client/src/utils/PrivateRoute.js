@@ -3,8 +3,7 @@ import { Redirect, Route } from "react-router-dom";
 import { ACCESS_TOKEN_NAME } from '../constants/apiConstants';
 function PrivateRoute({ children, ...rest }) {
 
-  console.log('children', children)
-  console.log('...rest', rest)
+
     return (
       <Route
         {...rest}
