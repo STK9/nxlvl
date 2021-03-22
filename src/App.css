@@ -1,0 +1,131 @@
+.navBar ul{
+  padding: 0;
+  margin: 0;
+  display: flex;
+  list-style: none;
+  width: 100%;
+  background-color: #333;
+  border: 5px solid #333333;
+  
+}
+.navBar ul a{
+  text-decoration: none;
+  color: rgb(234, 243, 239);
+  display: block;
+  padding: 15px;
+  margin: 0 5px;
+  font-size: 2em;
+  
+}
+.navBar ul .active, .navBar ul a:hover{
+  background: #FFF;
+  color: #222;
+}
+
+
+grid-container {
+  display: grid;
+  grid-template-columns: 100 100 100 100;
+  grid-template-rows: auto 100px;
+  grid-gap: 5px;
+  background-color: #2196F3;
+  padding: 5px;
+}
+
+grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+
+
+header {
+  grid-area: header;
+  background-color: #fed330;
+  padding: 20px;
+}
+article {
+  grid-area: content;
+  background-color: #5eb7f1;
+  padding: 20px;
+}
+
+aside {
+  grid-area: sidebar;
+  background-color: #45aaf2;
+}
+footer {
+  padding: 20px;
+  grid-area: footer;
+  background-color: #fd9644;
+}
+.wrapper {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 3fr;
+  grid-template-areas: 
+    "header  header"
+    "sidebar content"
+    "footer  footer";
+}
+@media (max-width: 500px) {
+  .wrapper {
+    grid-template-columns: 4fr;
+    grid-template-areas:
+      "header"
+      "content"
+      "sidebar"
+      "footer";
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
