@@ -20,13 +20,11 @@ router.post("/schooladmin",
         let user = await User.findOne({
           email
         });
-        console.log('user found?', user)
         if (!user)
           return res.status(400).json({
             message: "User Not Exist"
           });
           
-          console.log("pw, usr pw", password, user.password)
           await bcrypt.compare(password,user.password,(err1, res1)=>{
           if (err1){
               return res.status(400).json({
@@ -34,14 +32,12 @@ router.post("/schooladmin",
               });
           }
           if (res1){
-            console.log('matched')
             const payload = {
               user: {
                 id: user.id
               }
             };
-            console.log("payload  ", payload)
-            
+
             jwt.sign(
               payload,
               "randomString",
@@ -49,7 +45,6 @@ router.post("/schooladmin",
                 expiresIn: 15*6000
               },
               (err, token) => {
-                console.log(token)
                 if (err) throw err;
                 res.status(200).json({
                   token
